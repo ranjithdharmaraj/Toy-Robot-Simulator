@@ -16,17 +16,16 @@ Acceptable commands:
 3) LEFT 
 4) RIGHT
 5) REPORT
+6) FILE <path to test file>
 
 => PLACE will put the toy robot on the table in position X,Y and facing NORTH, SOUTH, EAST or WEST. 
 => The origin (0,0) can be considered to be the SOUTH WEST most corner. 
 => The first valid command to the robot is a PLACE command, after that, any sequence of commands may be issued, in any order, including another PLACE command. 
-=> The application should discard all commands in the sequence until a valid PLACE command has been executed. . MOVE will move the toy robot one unit forward in the direction it is currently facing. 
+=> The application discards all commands in the sequence until a valid PLACE command has been executed. MOVE will move the toy robot one unit forward in the direction it is currently facing. 
 => LEFT and RIGHT will rotate the robot 90 degrees in the specified direction without changing the position of the robot. 
 => REPORT will announce the X,Y and F of the robot. This can be in any form, but standard output is sufficient.
-
 => A robot that is not on the table can choose the ignore the MOVE, LEFT, RIGHT and REPORT commands. 
-=> Input can be from a file, or from standard input, as the developer chooses. 
-=> Provide test data to exercise the application.
+
 
 Constraints: 
 ------------
@@ -41,3 +40,58 @@ a) PLACE 0,0,NORTH MOVE REPORT Output: 0,1,NORTH
 b) PLACE 0,0,NORTH LEFT REPORT Output: 0,0,WEST
 
 c) PLACE 1,2,EAST MOVE MOVE LEFT MOVE REPORT Output: 3,3,NORTH
+
+Input from a file:
+------------------
+
+The user can pass the name of the file containing the commands to the robot as an input using the command "FILE".
+
+Ex: FILE test/test_cmds.txt
+
+Each line should be a command to the robot
+
+Ex: test_cmds.txt
+
+PLACE 0,0,NORTH
+MOVE
+MOVE
+REPORT
+RIGHT
+MOVE
+MOVE
+REPORT
+LEFT
+MOVE
+MOVE
+REPORT
+LEFT
+MOVE
+MOVE
+REPORT
+PLACE 4,4,SOUTH
+REPORT
+
+Output:
+
+Robot Co-ordinates => 0,2,NORTH
+Robot Co-ordinates => 2,2,EAST
+Robot Co-ordinates => 2,4,NORTH
+Robot Co-ordinates => 0,4,WEST
+Robot Co-ordinates => 4,4,SOUTH
+Robot Co-ordinates => 4,4,SOUTH
+
+How to run the simulator:
+-------------------------
+
+The simulator can be started using
+
+$ ruby test_robot.rb
+OR
+$ ./test_robot.rb
+
+Stop the simulator:
+------------------
+
+The user can stop the simulator using the commands "Exit" or "Quit". The commands are not case sensitive.
+
+
