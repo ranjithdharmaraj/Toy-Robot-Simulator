@@ -49,6 +49,10 @@ describe 'Robot Simulator' do
          simulator.report.should eq 'Robot Co-ordinates => 0,0,WEST'
          simulator.move_robot
          simulator.report.should eq 'Robot Co-ordinates => 0,0,WEST'
+
+         simulator.place(4,0,'EAST')
+         simulator.move_robot
+         simulator.report.should eq 'Robot Co-ordinates => 4,0,EAST'
       end
    end
 end
