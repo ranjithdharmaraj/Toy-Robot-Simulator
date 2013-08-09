@@ -1,4 +1,4 @@
-#!/usr/bin/ruby
+#!/usr/bin/env ruby
 class Simulator
 
    attr_accessor :x, :y, :f
@@ -6,18 +6,14 @@ class Simulator
    def initialize(output)
       @output = output
       @output.puts 'Welcome to Robot Simulator!'
-      
-      #Place the robot automatically at the default position
-      #@output.puts "The Robot is placed and ready for a spin!"
-      #place(0,0,'NORTH')
    end
 
    def place(x, y, f)
+      return if f.nil?
       if valid_positions(x.to_i, y.to_i)
          @x = x.to_i
          @y = y.to_i
          @f = f.upcase
-         #puts "Valid positions #{@x},#{@y},#{@f}"
       end
    end
 
@@ -26,12 +22,11 @@ class Simulator
    end
 
    def exec_command(cmd)
-      #puts "Command: #{cmd}"
       return if cmd.strip.empty?
       cmd_split = cmd.split(/\s+/) 
-      keyword   = cmd_split.first
-      values    = cmd_split.last 
-      case keyword.upcase!
+      keyword   = cmd_split.first.upcase
+      values    = cmd_split.last
+      case keyword
       when 'PLACE'
          tokens    = values.split(/,/)
          place(tokens[0],tokens[1],tokens[2])
@@ -43,8 +38,10 @@ class Simulator
          change_direction(keyword)
       when 'RIGHT'
          change_direction(keyword)
+      when 'FILE'
+         read_from_file(values)
       else
-         "Not a valid command #{keyword}."
+         #puts "Not a valid command #{keyword}"
       end
    end
 
@@ -53,7 +50,6 @@ class Simulator
    end
   
    def move_robot
-      #puts "F: #{@f}, X: #{@x}, Y: #{@y}" 
       if (@f=~/NORTH/ && @y < 4)
         @y = (@y.to_i) + 1
       elsif (@f =~/SOUTH/ && @y > 0)
@@ -66,7 +62,6 @@ class Simulator
    end
 
    def change_direction(direction)
-      #puts "Direction: #{direction}"
       if direction =~/LEFT/
          if @f=~/NORTH/
             @f="WEST"
@@ -88,6 +83,20 @@ class Simulator
          elsif @f =~/WEST/
             @f ="NORTH"
          end
+      end
+   end
+  
+   def read_from_file(filename)
+      begin
+         fh = File.new(filename,"r")
+	 while (line = fh.gets)
+            sleep 1 
+	    exec_command(line.chomp)
+         end
+         fh.close
+      rescue => read_err
+         puts "Exception when reading file: #{read_err}"
+	 read_err  
       end
    end
 end
