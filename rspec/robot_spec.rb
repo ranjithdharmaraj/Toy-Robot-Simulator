@@ -13,6 +13,15 @@ describe 'Robot Simulator' do
          simulator.y.should eq 0
          simulator.f.should eq 'NORTH'
       end
+ 
+      it 'should change directions on command' do
+         place_robot
+         simulator.move_robot
+         simulator.change_direction('RIGHT')
+         simulator.report.should eq "Robot Co-ordinates => 0,1,EAST"
+         simulator.change_direction('LEFT')
+         simulator.report.should eq "Robot Co-ordinates => 0,1,NORTH"
+      end          
     
       it 'should move one unit forward from default position' do
          place_robot
@@ -34,6 +43,12 @@ describe 'Robot Simulator' do
          simulator.report.should eq 'Robot Co-ordinates => 4,4,EAST'
          simulator.move_robot
          simulator.report.should eq 'Robot Co-ordinates => 4,4,EAST'
+ 
+         simulator.place(0,0,'NORTH')
+         simulator.change_direction('LEFT')
+         simulator.report.should eq 'Robot Co-ordinates => 0,0,WEST'
+         simulator.move_robot
+         simulator.report.should eq 'Robot Co-ordinates => 0,0,WEST'
       end
    end
 end
