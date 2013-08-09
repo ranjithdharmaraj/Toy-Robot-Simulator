@@ -90,7 +90,6 @@ class Simulator
       begin
          fh = File.new(filename,"r")
 	 while (line = fh.gets)
-            sleep 1 
 	    exec_command(line.chomp)
          end
          fh.close
