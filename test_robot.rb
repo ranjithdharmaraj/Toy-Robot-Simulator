@@ -5,9 +5,9 @@ require 'simulator'
 
 simulator = Simulator.new(STDOUT)
 
-while command = gets.chomp
-   break if (command.upcase == "QUIT" || command.upcase == "EXIT")
-   simulator.exec_command(command)
+while user_request = gets.chomp
+   break if (user_request.upcase == "QUIT" || user_request.upcase == "EXIT")
+   simulator.execute(user_request)
    puts simulator.report
 end
 
